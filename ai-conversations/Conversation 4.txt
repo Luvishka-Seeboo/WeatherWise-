@@ -1,0 +1,33 @@
+----------------------------------
+Tool: ChatGPT
+Date: 2025-05-22
+----------------------------------
+Me: Now that you have fix the API error, can you buld the dashboard and make it more UI ?
+Ai: We'll use ipywidgets for input controls and HTML-styled weather cards.
+import ipywidgets as widgets
+from IPython.display import display, clear_output
+
+# Style hover effect for cards
+style = widgets.HTML("""
+<style>
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+}
+</style>
+""")
+display(style)
+
+def make_card(title, value, bg_gradient):
+    return widgets.HTML(
+        f"""
+        <div class="card" style="background:{bg_gradient};border-radius:15px;
+            padding:12px;text-align:center;color:white;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);">
+            <div style="font-size:14px;">{title}</div>
+            <div style="font-size:26px;font-weight:bold;margin-top:6px;">{value}</div>
+        </div>
+        """,
+        layout=widgets.Layout(width='130px', height='100px')
+    )
+
