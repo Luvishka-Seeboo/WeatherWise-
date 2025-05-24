@@ -11,15 +11,15 @@ Write a function to retrieve weather data from OpenWeatherMap for Mauritius.
 ```
 ## Initial AI-Generated Code (Before)
 
-```
-
+```python
 def get_weather(city, api_key):
     url = "https://api.openweathermap.org/data/2.5/weather"
     params = {"q": f"{city},MU", "appid": api_key, "units": "metric"}
     response = requests.get(url, params=params)
-
     return response.json()
 ```
+
+
 
 ## My Analysis of the Initial Code
 The initial code has several issues:
@@ -35,8 +35,7 @@ The initial code has several issues:
     
 ## Improved AI-Generated Code (After)
 
-```
-
+```python
 def get_weather_safe(city, api_key, timeout=5):
     """
     Safely fetch Mauritius weather data with error handling.
