@@ -1,6 +1,6 @@
 ----------------------------------
 Tool: ChatGPT
-Date: 2025-05-23
+Date: 2025-05-22
 ----------------------------------
 Me: Now that my widgets and styles are ready, how do I assemble and render the full dashboard?
 Ai: Create your banner, your controls box, then wrap them with header and grid in a top-level VBox, and finally display(main_ui).
