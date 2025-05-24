@@ -14,21 +14,8 @@ from IPython.display import display, clear_output
 Me: How do I pull current weather for a Mauritius city and parse it into clear labels?
 Ai: Write a get_weather() that calls OpenWeatherMap, handles errors via raise_for_status(), and returns a dict mapping friendly keys to formatted values.
 
-def get_weather(city, api_key):
-    url = "https://api.openweathermap.org/data/2.5/weather"
-    params = {"q": f"{city},MU", "appid": api_key, "units": "metric"}
-    response = requests.get(url, params=params)
-    response.raise_for_status()
-    d = response.json()
-    return {
-        "City":       d["name"],
-        "Condition":  d["weather"][0]["description"].title(),
-        "Temp":       f"{d['main']['temp']:.1f}°C",
-        "FeelsLike":  f"{d['main']['feels_like']:.1f}°C",
-        "Humidity":   f"{d['main']['humidity']}%",
-        "WindSpeed":  f"{d['wind']['speed']:.1f} m/s",
-        "Icon":       d["weather"][0]["icon"]
-
-    }
-
+```python
+url = "https://api.openweathermap.org/data/2.5/weather"
+params = {"q": f"{city},MU", "appid": api_key, "units": "metric"}
+```
 
