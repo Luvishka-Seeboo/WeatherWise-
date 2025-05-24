@@ -19,7 +19,7 @@ Write a function to show current weather conditions for Mauritius.
 
 
 ---
-def show_weather(city):
+    def show_weather(city):
 
     data = get_weather(city, API_KEY)
     
