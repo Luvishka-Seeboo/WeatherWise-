@@ -10,6 +10,7 @@ Write a function to retrieve weather data from OpenWeatherMap for Mauritius.
 
 ```
 ## Initial AI-Generated Code (Before)
+
 ```
 
 def get_weather(city, api_key):
