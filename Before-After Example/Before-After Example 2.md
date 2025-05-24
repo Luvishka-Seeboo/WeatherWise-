@@ -56,94 +56,69 @@ def on_click(b):
 ## Improved AI-Generated Code (After)
 
 ```python
-def get_weather_data(location, forecast_days=5, timeout=10):
-    """
-    Retrieve weather data for a specified location from wttr.in API.
-    
-    Args:
-        location (str): City or location name
-        forecast_days (int): Number of days to forecast (1-5)
-        timeout (int): Timeout for API request in seconds
-        
-    Returns:
-        dict: Weather data including current conditions and forecast,
-             or None if an error occurred
-    """
-    import requests
-    
-    # Input validation
-    if not location or not isinstance(location, str):
-        print("Error: Location must be a non-empty string")
-        return None
-    
-    if not 1 <= forecast_days <= 5:
-        print("Error: forecast_days must be between 1 and 5")
-        forecast_days = min(max(1, forecast_days), 5)  # Clamp to valid range
-    
-    # Clean up the location string
-    location = location.strip().replace(" ", "+")
-    
-    try:
-        # Make request to wttr.in API
-        url = f"https://wttr.in/{location}?format=j1"
-        response = requests.get(url, timeout=timeout)
-        response.raise_for_status()  # Raise exception for HTTP errors
-        
-        # Parse JSON response
-        data = response.json()
-        
-        # Process and extract relevant information
-        result = {
-            "location": location.replace("+", " "),
-            "current": {
-                "temperature": {
-                    "current": int(data["current_condition"][0]["temp_C"]),
-                    "feels_like": int(data["current_condition"][0]["FeelsLikeC"])
-                },
-                "condition": data["current_condition"][0]["weatherDesc"][0]["value"],
-                "humidity": int(data["current_condition"][0]["humidity"]),
-                "wind": {
-                    "speed": int(data["current_condition"][0]["windspeedKmph"]),
-                    "direction": data["current_condition"][0]["winddir16Point"]
-                },
-                "precipitation": float(data["current_condition"][0]["precipMM"])
-            },
-            "forecast": []
-        }
-        
-        # Add forecast data
-        for i in range(min(forecast_days, len(data["weather"]))):
-            day = data["weather"][i]
-            forecast_day = {
-                "date": day["date"],
-                "max_temp": int(day["maxtempC"]),
-                "min_temp": int(day["mintempC"]),
-                "condition": day["hourly"][4]["weatherDesc"][0]["value"],  # Midday condition
-                "precipitation": {
-                    "chance": int(day["hourly"][4]["chanceofrain"]),
-                    "amount": float(day["hourly"][4]["precipMM"])
-                },
-                "wind": {
-                    "speed": int(day["hourly"][4]["windspeedKmph"]),
-                    "direction": day["hourly"][4]["winddir16Point"]
-                }
-            }
-            result["forecast"].append(forecast_day)
-        
-        return result
-        
-    except requests.exceptions.RequestException as e:
-        print(f"Error retrieving weather data: {e}")
-        return None
-    except (KeyError, ValueError, TypeError) as e:
-        print(f"Error processing weather data: {e}")
-        return None
+def build_dashboard():
+    # — Style injection (once) —
+    style = widgets.HTML("""<style> .card:hover { transform: translateY(-6px) scale(1.02); } </style>""")
+
+    # — Inputs —
+    api_key = widgets.Password(description="API Key:", layout=widgets.Layout(width='340px'))
+    city_dd  = widgets.Dropdown( options=[…], description="City:", layout=widgets.Layout(width='340px'))
+    btn      = widgets.Button(description="Show Weather", button_style='info', layout=widgets.Layout(width='160px'))
+
+    # — Display areas —
+    header = widgets.HTML("<h3>Enter API key & select a city</h3>", layout=widgets.Layout(padding='8px'))
+    grid   = widgets.HBox([], layout=widgets.Layout(justify_content='space-around', padding='12px'))
+
+    # — Layout —
+    banner   = widgets.HTML("<div style='…'>🇲🇺 Mauritius Weather</div>")
+    controls = widgets.VBox([api_key, city_dd, btn], layout=widgets.Layout(padding='10px', border='1px solid #ddd'))
+    ui       = widgets.VBox([style, banner,
+                             widgets.HBox([controls, header]),
+                             grid],
+                            layout=widgets.Layout(width='760px'))
+
+    # Attach references for updates
+    ui.api_key = api_key
+    ui.city_dd  = city_dd
+    ui.btn      = btn
+    ui.header   = header
+    ui.grid     = grid
+    return ui
+
+# Build it once
+dashboard = build_dashboard()
+display(dashboard)
+
+# Refined handler
+def on_click(b):
+    key = dashboard.api_key.value.strip()
+    city = dashboard.city_dd.value
+
+    if not key:
+        dashboard.header.value = "<h3 style='color:red;'>❌ Enter API key!</h3>"
+        dashboard.grid.children = []
+        return
+
+    w = get_weather(city, key) or {}
+    if not w:
+        dashboard.header.value = "<h3 style='color:red;'>❌ Could not fetch weather</h3>"
+        dashboard.grid.children = []
+        return
+
+    # Update header & cards in place
+    icon = w["Icon"]
+    dashboard.header.value = f"<h2>{w['City']} — {w['Condition']}</h2>"
+    dashboard.grid.children = [
+        make_card("Temp", w["Temp"],      "linear-gradient(…)")
+        # …other cards…
+    ]
+
+# Wire up once
+dashboard.btn.on_click(on_click)
+
 ```
 
-
-
-
-    
+   
     
   ## Why My Prompting Strategy Was Effective
   
