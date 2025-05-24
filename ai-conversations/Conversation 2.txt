@@ -1,0 +1,21 @@
+Me: Cool! Now can I add a dropdown menu in Jupyter Notebook to choose a city from Mauritius?
+
+Ai: Yes! We’ll use ipywidgets for the dropdown and button to trigger the function.
+
+Me: Nice. Now how can we build the dashboard layout in Jupyter?
+
+Ai: We'll use ipywidgets for input controls and HTML-styled weather cards.
+
+Me: Can you add a dropdown and button to control it?
+
+AI: Yes! Here's the complete UI logic.
+
+Me: This is perfect! Can you help me add a banner on the top? 
+
+Ai: Sure! Here's a nice gradient banner:
+
+Me: Is this code done to display the dashboard? 
+
+Ai: Done! You now have a beautiful, interactive weather dashboard for Mauritius cities using Python and OpenWeatherMap.
+
+
