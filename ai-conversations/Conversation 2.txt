@@ -1,21 +1,34 @@
-Me: Cool! Now can I add a dropdown menu in Jupyter Notebook to choose a city from Mauritius?
 
-Ai: Yes! We’ll use ipywidgets for the dropdown and button to trigger the function.
+----------------------------------
+Tool: ChatGPT
+Date: 2025-05-21
+----------------------------------
+Me: I want to make a Colab weather dashboard—what libraries do I need, and how do I set up the initial display area?
+AI: Use requests for API calls, ipywidgets for interactive controls, and IPython.display to manage output. First, import these and call display(...) at the end to render your main container.
 
-Me: Nice. Now how can we build the dashboard layout in Jupyter?
+import requests
+import ipywidgets as widgets
+from IPython.display import display, clear_output
 
-Ai: We'll use ipywidgets for input controls and HTML-styled weather cards.
 
-Me: Can you add a dropdown and button to control it?
+Me: How do I pull current weather for a Mauritius city and parse it into clear labels?
+Ai: Write a get_weather() that calls OpenWeatherMap, handles errors via raise_for_status(), and returns a dict mapping friendly keys to formatted values.
 
-AI: Yes! Here's the complete UI logic.
+def get_weather(city, api_key):
+    url = "https://api.openweathermap.org/data/2.5/weather"
+    params = {"q": f"{city},MU", "appid": api_key, "units": "metric"}
+    response = requests.get(url, params=params)
+    response.raise_for_status()
+    d = response.json()
+    return {
+        "City":       d["name"],
+        "Condition":  d["weather"][0]["description"].title(),
+        "Temp":       f"{d['main']['temp']:.1f}°C",
+        "FeelsLike":  f"{d['main']['feels_like']:.1f}°C",
+        "Humidity":   f"{d['main']['humidity']}%",
+        "WindSpeed":  f"{d['wind']['speed']:.1f} m/s",
+        "Icon":       d["weather"][0]["icon"]
 
-Me: This is perfect! Can you help me add a banner on the top? 
-
-Ai: Sure! Here's a nice gradient banner:
-
-Me: Is this code done to display the dashboard? 
-
-Ai: Done! You now have a beautiful, interactive weather dashboard for Mauritius cities using Python and OpenWeatherMap.
+    }
 
 
