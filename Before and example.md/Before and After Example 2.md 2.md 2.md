@@ -12,12 +12,19 @@ Title : "Before/After Example 2: Weather Data Retrieval Function"
 Write a function to show current weather conditions for Mauritius.
 
 ```
+
 ## Initial AI-Generated Code (Before)
 
-'''def show_weather(city):
+---
+
+
+---
+def show_weather(city):
+
     data = get_weather(city, API_KEY)
+    
     print(f"Temperature: {data['main']['temp']}°C")
-  ''''  
+```
 
   ## My Analysis of the Initial Code
   
@@ -36,7 +43,9 @@ Write a function to show current weather conditions for Mauritius.
 
 ```
 ## Improved AI-Generated Code (After)
-'''def get_weather_with_alerts(city, api_key):
+
+```
+def get_weather_with_alerts(city, api_key):
     """
     Fetch weather with safety alerts for Mauritius.
     
@@ -57,11 +66,11 @@ Write a function to show current weather conditions for Mauritius.
     if "cyclone" in data["condition"].lower():
         alerts.append("🌀 Cyclone Alert!")
         
-  return {
+        return {
+        
         **data,
-        "alerts": alerts if alerts else ["No severe weather"]
-       }
- ''' 
+        "alerts": alerts if alerts else ["No severe weather"] }
+```
     
     
   ## Why My Prompting Strategy Was Effective
